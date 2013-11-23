@@ -5,7 +5,14 @@
     list-style: none;
     text-decoration: none;
 }
+#geral {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    overflow: hidden;
+}
 .slideshow {
+    float: left;
     width: 400px;
     height: 300px;
     padding: 0 50px;
@@ -45,4 +52,26 @@
 }
 .arrow.next {
     right: 0;
+}
+.thumbnails {
+    float: right;
+    width: 390px;
+    overflow: hidden;
+}
+.content-thumbnails>ul {
+    display: none;
+    width: 400px;
+}
+.content-thumbnails>ul.active {
+    display: block;
+}
+.content-thumbnails>ul>li {
+    background: blue;
+    float: left;
+    width: 90px;
+    height: 90px;
+    margin: 0 10px 10px 0;
+}
+.content-thumbnails>ul>li:nth-child(even) {
+    background: pink;
 }

@@ -22,7 +22,7 @@ function Slide() {
 		self.btnNext = document.querySelector('.arrow.next');
 		self.itemAtual = 0;
 
-		$.getJSON({
+		$.ajax({
 			url: 'http://www.flickr.com/services/rest/',
 			dataType: 'JSONP',
 			data: {
@@ -33,7 +33,7 @@ function Slide() {
 				api_sig: '0e8fed83c9f6ae5deaa6117122aabe55'
 			},
 			success: function(response){
-				console.log(response.photo);
+				console.log('oi');
 			}
 		});
 	}
