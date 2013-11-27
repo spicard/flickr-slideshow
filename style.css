@@ -12,32 +12,20 @@
     overflow: hidden;
 }
 .slideshow {
-    float: left;
-    width: 400px;
-    height: 300px;
+    width: 640px;
+    height: 640px;
+    margin: 0 auto;
     padding: 0 50px;
     position: relative;
 }
 .content-slideshow {
-    width: 400px;
-    height: 300px;
+    width: 640px;
+    height: 640px;
     overflow: hidden;
 }
-.content-slideshow ul {
-    width: 5000px;
-    height: 100%;
-    float: left;
-    -webkit-transition: margin 0.3s;
+.content-slideshow img {
+    display: block;
 }
-.content-slideshow ul li {
-    background: red;
-    width: 400px;
-    height: 100%;
-    float: left;
-}
-.content-slideshow ul li:nth-child(2) {background: green;}
-.content-slideshow ul li:nth-child(3) {background: pink;}
-.content-slideshow ul li:nth-child(4) {background: gray;}
 .arrow {
     background: #000;
     display: block;
@@ -54,23 +42,20 @@
     right: 0;
 }
 .thumbnails {
-    float: right;
-    width: 390px;
+    width: 100%;
+    margin: 20px 0 0;
     overflow: hidden;
 }
 .content-thumbnails>ul {
-    display: none;
-    width: 400px;
-}
-.content-thumbnails>ul.active {
-    display: block;
+    width: 100%;
+    text-align: center;
 }
 .content-thumbnails>ul>li {
     background: blue;
-    float: left;
-    width: 90px;
-    height: 90px;
-    margin: 0 10px 10px 0;
+    display: inline-block;
+    width: 75px;
+    height: 75px;
+    margin: 0 10px 10px;
 }
 .content-thumbnails>ul>li:nth-child(even) {
     background: pink;
