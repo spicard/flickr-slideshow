@@ -13,18 +13,24 @@
 }
 .slideshow {
     width: 640px;
-    height: 640px;
+    height: 400px;
     margin: 0 auto;
     padding: 0 50px;
     position: relative;
 }
 .content-slideshow {
     width: 640px;
-    height: 640px;
+    height: 400px;
     overflow: hidden;
 }
-.content-slideshow img {
-    display: block;
+.content-slideshow ul {
+    float: left;
+    width: 5000;
+}
+.content-slideshow ul li {
+    float: left;
+    width: 640px;
+    height: 100%;
 }
 .arrow {
     background: #000;
@@ -51,12 +57,18 @@
     text-align: center;
 }
 .content-thumbnails>ul>li {
-    background: blue;
+    background: #000;
     display: inline-block;
     width: 75px;
     height: 75px;
     margin: 0 10px 10px;
 }
-.content-thumbnails>ul>li:nth-child(even) {
-    background: pink;
+.content-thumbnails>ul>li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+}
+.content-thumbnails>ul>li.active a {
+    opacity: 0.2;
 }

@@ -7,8 +7,6 @@ function Slide() {
 	this.init = function() {
 		self = this;
 		self.values();
-		/*self.clickButtonPrev();
-		self.clickButtonNext();*/
 	}
 
 	this.values = function() {
@@ -37,9 +35,44 @@ function Slide() {
 				var url = 'http://farm' + farmId + '.staticflickr.com/' + serverId+ '/' + id+ '_' + secret;
 				var urlComplete = url + medium;
 
-				document.querySelector('.content-slideshow').innerHTML = '<img src"" />';
-				document.querySelector('.content-slideshow img').setAttribute('src', urlComplete);
+				document.querySelector('.content-slideshow').innerHTML = '<ul></ul>';
 				document.querySelector('.content-thumbnails').innerHTML = '<ul></ul>';
+
+				for (var i = 0; i < quantItens; i++) {
+					var item = document.createElement('li');
+					var photo = response.photos.photo[i];
+					var farmId = photo.farm;
+					var serverId = photo.server;
+					var id = photo.id;
+					var secret = photo.secret;
+					var url = 'http://farm' + farmId + '.staticflickr.com/' + serverId+ '/' + id+ '_' + secret;
+					var currentItem = 0;
+
+					document.querySelector('.content-slideshow ul').appendChild(item);
+					item.innerHTML = '<img src="' + url + medium + '" />';
+				};
+				var itemWidth = document.querySelector('.content-slideshow ul li').offsetWidth;
+				document.querySelector('.content-slideshow ul').style.width = itemWidth * quantItens + 'px';
+
+				this.clickButtonPrev = function() {
+					var itemWidth = document.querySelector('.content-slideshow ul li').offsetWidth;
+					self.btnPrev.addEventListener('click', function() {
+						if (currentItem > 0) {
+							--currentItem;
+							document.querySelector('.content-slideshow ul').style.marginLeft = -(itemWidth * currentItem) + 'px';
+						}
+					});
+				}
+
+				this.clickButtonNext = function() {
+					var itemWidth = document.querySelector('.content-slideshow ul li').offsetWidth;
+					self.btnNext.addEventListener('click', function() {
+						if (currentItem < quantItens) {
+							++currentItem;
+							document.querySelector('.content-slideshow ul').style.marginLeft = -(itemWidth * currentItem) + 'px';
+						}
+					});
+				}
 
 				for (var i = 0; i < quantItens; i++) {
 					var item = document.createElement('li');
@@ -55,41 +88,40 @@ function Slide() {
 					item.appendChild(link);
 					link.setAttribute('href', url + medium);
 					link.innerHTML = '<img src="' + url + small + '" />';
-					console.log(link)
 				};
 
-				var allThumbs = document.querySelectorAll('.content-thumbnails ul li a'),
+				var allThumbs = document.querySelectorAll('.content-thumbnails ul li'),
 					allThumbsArray = [];
+
+				allThumbs[0].setAttribute('class', 'active');
 
 				for (var i = 0; i < allThumbs.length; i++) {
 					allThumbsArray.push(allThumbs[i]);
 					allThumbs[i].addEventListener('click', function(e) {
-						var url = this.getAttribute('href');
-						document.querySelector('.content-slideshow img').setAttribute('src', url);
+						var itemWidth = document.querySelector('.content-slideshow ul li').offsetWidth;
+						console.log(allThumbs.indexOff(0));
+						document.querySelector('.content-slideshow ul').marginLeft = -(i * itemWidth) + 'px';
+						window.scroll($('.content-slideshow'),0);
+
+						this.setAttribute('class', 'active');
+						var siblings = this.parentNode.childNodes;
+						allSiblingsArray = [];
+
+						for (var i = 0; i < allThumbs.length; i++) {
+							allSiblingsArray.push(siblings[i]);
+
+							if (allSiblingsArray[i] !== this) {
+								allSiblingsArray[i].removeAttribute('class');
+							}
+						};
 						e.preventDefault();
 					})
 				};
+				this.clickButtonPrev();
+				this.clickButtonNext();
 			}
 		});
 	}
-
-	/*this.clickButtonPrev = function() {
-		self.btnPrev.addEventListener('click', function() {
-			if (self.itemAtual > 0) {
-				document.querySelector('.content-slideshow img').setAttribute('src', url);
-			}
-		});
-	}
-
-	this.clickButtonNext = function() {
-		self.btnNext.addEventListener('click', function() {
-			if (self.itemAtual < self.itensLength -1) {
-				++self.itemAtual;
-				document.querySelector('.content-slideshow img').setAttribute('src', url);
-			}
-		});
-	}*/
 
 	this.init();
 }
-
