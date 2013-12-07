@@ -42,10 +42,6 @@ function Slide() {
 			for (var i = 0; i < allThumbs.length; i++) {
 				allThumbsArray.push(allThumbs[i]);
 				allThumbs[i].addEventListener('click', function(e) {
-					var itemWidth = document.querySelector('.content-slideshow ul li').offsetWidth;
-					document.querySelector('.content-slideshow ul').marginLeft = -(i * itemWidth) + 'px';
-					window.scroll($('.content-slideshow'),0);
-
 					this.setAttribute('class', 'active');
 					var siblings = this.parentNode.childNodes;
 					allSiblingsArray = [];
@@ -57,7 +53,9 @@ function Slide() {
 							allSiblingsArray[i].removeAttribute('class');
 						}
 					};
-					e.preventDefault();
+					var itemWidth = document.querySelector('.content-slideshow ul li').offsetWidth;
+					document.querySelector('.content-slideshow ul').marginLeft = -(i * itemWidth) + 'px';
+					window.scroll($('.content-slideshow'),0);
 				})
 			};
 		}
@@ -70,12 +68,9 @@ function Slide() {
 			document.querySelector('.content-slideshow ul').style.width = 640 * this.quantItens + 'px';
 		}
 		this.thumbnails = function() {
-			var	item = document.createElement('li'),
-				link = document.createElement('a');
+			var	item = document.createElement('li');
 			document.querySelector('.content-thumbnails ul').appendChild(item);
-			item.appendChild(link);
-			link.setAttribute('href', this.url + this.medium);
-			link.innerHTML = '<img src="' + this.url + self.small + '" />';
+			item.innerHTML = '<img src="' + this.url + self.small + '" />';
 		}
 
 		this.render = function(response) {
