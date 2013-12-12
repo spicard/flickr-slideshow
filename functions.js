@@ -15,6 +15,11 @@ function Slide() {
 		self.btnNext = document.querySelector('.arrow.next');
 		self.currentItem = 0;
 
+		this.marginSlide = function() {
+			var itemWidth = document.querySelector('.content-slideshow ul li').offsetWidth;
+			document.querySelector('.content-slideshow ul').style.marginLeft = -(itemWidth * self.currentItem) + 'px';
+		}
+
 		this.classActive = function(response) {
 			var allThumbs = document.querySelectorAll('.content-thumbnails ul li'),
 				allThumbsArray = [];
@@ -31,7 +36,7 @@ function Slide() {
 			self.btnPrev.addEventListener('click', function() {
 				if (self.currentItem > 0) {
 					--self.currentItem;
-					document.querySelector('.content-slideshow ul').style.marginLeft = -(640 * self.currentItem) + 'px';
+					self.marginSlide();
 					self.classActive();
 				}
 			});
@@ -41,7 +46,7 @@ function Slide() {
 			self.btnNext.addEventListener('click', function() {
 				if (self.currentItem < self.quantItens) {
 					++self.currentItem;
-					document.querySelector('.content-slideshow ul').style.marginLeft = -(640 * self.currentItem) + 'px';
+					self.marginSlide();
 					self.classActive();
 				}
 			});
@@ -57,15 +62,14 @@ function Slide() {
 				allThumbsArray.push(allThumbs[i]);
 				allThumbs[i].addEventListener('click', function(e) {
 					var siblings = this.parentNode.childNodes;
-					var itemWidth = document.querySelector('.content-slideshow ul li').offsetWidth;
 					allSiblingsArray = [];
 
 					for (var j = 0; j < allThumbs.length; j++) {
 						allSiblingsArray.push(siblings[j]);
 
 						if (allSiblingsArray[j] == this) {
-							document.querySelector('.content-slideshow ul').style.marginLeft = -(j * itemWidth) + 'px';
 							self.currentItem = j;
+							self.marginSlide();
 						};
 						self.classActive();
 					};
@@ -105,10 +109,16 @@ function Slide() {
 				this.url = 'http://farm' + this.farmId + '.staticflickr.com/' + this.serverId+ '/' + this.address + '_' + this.secret;
 				this.slideshow();
 				this.thumbnails();
+
+				/*if (!(i % 15) && i != 0) {
+					document.querySelector('.content-thumbnails').innerHTML = '</ul>';
+					document.querySelector('.content-thumbnails').innerHTML = '<ul>';
+				}*/
 			};
-			this.clickThumb();
+			
 			this.clickButtonPrev();
 			this.clickButtonNext();
+			this.clickThumb();
 		}
 
 		this.ajax = function() {
