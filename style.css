@@ -50,12 +50,17 @@
 }
 .thumbnails {
     width: 100%;
-    margin: 20px 0 0;
+    max-width: 700px;
+    margin: 20px auto 0;
     overflow: hidden;
 }
 .content-thumbnails>ul {
+    display: none;
     width: 100%;
     text-align: center;
+}
+.content-thumbnails>ul.active {
+    display: block;
 }
 .content-thumbnails>ul>li {
     background: #000;
@@ -70,4 +75,22 @@
 }
 .content-thumbnails>ul>li.active img {
     opacity: 0.2;
+}
+nav.pagination {
+    margin: 10px 0 0;
+}
+nav.pagination ul {
+    text-align: center;
+}
+nav.pagination ul li {
+    display: inline-block;
+    margin: 0 5px;
+}
+nav.pagination ul li a {
+    color: #000;
+}
+nav.pagination ul li.active a {
+    display: block;
+    background: #000;
+    color: #fff;
 }

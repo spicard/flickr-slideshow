@@ -35,19 +35,37 @@ function Slide() {
 		this.clickButtonPrev = function(response) {
 			self.btnPrev.addEventListener('click', function() {
 				if (self.currentItem > 0) {
+					var element = document.querySelector('.content-thumbnails ul li.active'),
+						parent = element.parentElement,
+						siblings = parent.childNodes;
+
 					--self.currentItem;
 					self.marginSlide();
 					self.classActive();
+
+					if (element == siblings[0]) {
+						parent.removeAttribute('class');
+						parent.previousSibling.setAttribute('class', 'active');
+					}
 				}
 			});
 		}
 
 		this.clickButtonNext = function(response) {
 			self.btnNext.addEventListener('click', function() {
-				if (self.currentItem < self.quantItens) {
+				if (self.currentItem < self.quantItens - 1) {
+					var element = document.querySelector('.content-thumbnails ul li.active'),
+						parent = element.parentElement,
+						siblings = parent.childNodes;
+
 					++self.currentItem;
 					self.marginSlide();
 					self.classActive();
+
+					if (element == siblings[siblings.length - 1]) {
+						parent.removeAttribute('class');
+						parent.nextSibling.setAttribute('class', 'active');
+					}
 				}
 			});
 		}
@@ -55,8 +73,6 @@ function Slide() {
 		this.clickThumb = function(response) {
 			var allThumbs = document.querySelectorAll('.content-thumbnails ul li'),
 				allThumbsArray = [];
-
-			allThumbs[0].setAttribute('class', 'active');
 
 			for (var i = 0; i < allThumbs.length; i++) {
 				allThumbsArray.push(allThumbs[i]);
@@ -68,7 +84,7 @@ function Slide() {
 						allSiblingsArray.push(siblings[j]);
 
 						if (allSiblingsArray[j] == this) {
-							self.currentItem = j;
+							self.currentItem = this.dataset.number;
 							self.marginSlide();
 						};
 						self.classActive();
@@ -85,20 +101,66 @@ function Slide() {
 			item.setAttribute('id', this.photo.id);
 			document.querySelector('.content-slideshow ul').style.width = 640 * this.quantItens + 'px';
 		}
-		this.thumbnails = function() {
+		this.thumbnails = function(ul, i) {
 			var	item = document.createElement('li');
-			document.querySelector('.content-thumbnails ul').appendChild(item);
+			ul.appendChild(item);
 			item.innerHTML = '<img src="' + this.url + self.small + '" />';
 			item.setAttribute('id', this.photo.id);
+			item.setAttribute('data-number', i);
+			item.setAttribute('data-number', i);
+			self.firstList.setAttribute('class', 'active');
+			self.firstList.firstElementChild.setAttribute('class', 'active');
+		}
+
+		this.paginationThumbs =  function() {
+			var lists = document.querySelectorAll('.content-thumbnails ul');
+			document.querySelector('.pagination').innerHTML = '<ul></ul>';
+
+			this.changeTab = function() {
+				link.addEventListener('click', function(e) {
+					var target = this.getAttribute('href'),
+						siblings = document.querySelector(target).parentElement.childNodes;
+
+					for (var b = 0; b < siblings.length; b++) {
+						siblings[b].removeAttribute('class');
+					};
+
+					document.querySelector(target).setAttribute('class', 'active');
+					e.preventDefault;
+				})
+			}
+
+			for (var a = 0; a < lists.length; a++) {
+				var	item = document.createElement('li'),
+					link = document.createElement('a');
+
+				document.querySelector('.pagination ul').appendChild(item);
+				item.appendChild(link);
+				link.innerHTML = a + 1 + '';
+				link.setAttribute('href', lists[a].dataset.name);
+				this.changeTab();
+			};
 		}
 
 		this.render = function(response) {
 			this.quantItens = response.photos.photo.length;
 
+			var content = document.querySelector('.content-thumbnails'), 
+				ul;
+
 			document.querySelector('.content-slideshow').innerHTML = '<ul></ul>';
-			document.querySelector('.content-thumbnails').innerHTML = '<ul></ul>';
 
 			for (var i = 0; i < this.quantItens; i++) {
+				
+				if (i % 14 == 0) {
+					ul = document.createElement('ul');
+					content.appendChild(ul)
+					ul.setAttribute('data-name', '#list' + i);
+					ul.setAttribute('id', 'list' + i);
+				}
+
+				self.firstList = content.children[0];
+
 				this.photo = response.photos.photo[i];
 				this.farmId = this.photo.farm;
 				this.serverId = this.photo.server;
@@ -108,17 +170,13 @@ function Slide() {
 				this.medium = '_z.jpg'
 				this.url = 'http://farm' + this.farmId + '.staticflickr.com/' + this.serverId+ '/' + this.address + '_' + this.secret;
 				this.slideshow();
-				this.thumbnails();
-
-				/*if (!(i % 15) && i != 0) {
-					document.querySelector('.content-thumbnails').innerHTML = '</ul>';
-					document.querySelector('.content-thumbnails').innerHTML = '<ul>';
-				}*/
+				this.thumbnails(ul, i);
 			};
 			
 			this.clickButtonPrev();
 			this.clickButtonNext();
 			this.clickThumb();
+			this.paginationThumbs();
 		}
 
 		this.ajax = function() {
