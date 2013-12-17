@@ -26,7 +26,7 @@
 .content-slideshow ul {
     float: left;
     width: 5000;
-    -webkit-transition: margin 0.5s;
+    -webkit-transition: margin 0.3s;
 }
 .content-slideshow ul li {
     float: left;
